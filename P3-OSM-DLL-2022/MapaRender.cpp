@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "MapaRender.h"
+#include "MapaSolucio.h"
 #include "Util.h"
 
-#if defined(_MSC_VER)  // Aquest arxiu nomÈs a WPF Gr‡fic (no a Caronte)
+#if defined(_MSC_VER)  // Aquest arxiu nom√©s a WPF Gr√†fic (no a Caronte)
 
 MapaRender* MapaRender::m_singleton = nullptr;
 
@@ -10,8 +11,7 @@ MapaRender::MapaRender() {
 
     this->m_xml4osm_util = new XML4OSMUtil();
     
-    // TODO: Cal que instancieu m_mapaBase amb la vostra MapaSolucio
-    this->m_mapaBase = nullptr;
+    this->m_mapaBase = new MapaSolucio();
 }
 
 // DO NOT TOUCH THIS
@@ -85,7 +85,7 @@ void MapaRender::construeixOSM(const std::string& path_map) {
             m_mapaBase->parsejaXmlElements(result);
         }
     }
-    else {//Aquest missatge sortir‡ quan encara no has fet la part del projecte que carrega el mapa
+    else {// Aquest missatge sortir√† quan encara no has fet la part del projecte que carrega el mapa
         Util::escriuEnMonitor("No has instanciat correctament MapaBase!");
     }
 }
