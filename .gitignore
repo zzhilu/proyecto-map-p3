@@ -1,0 +1,33 @@
+# Visual Studio user state and caches
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.VC.db
+*.VC.VC.opendb
+*.opendb
+*.sdf
+*.opensdf
+*.ipch
+
+# Build outputs (kept specific so bundled third-party binaries remain tracked)
+/bin/
+/P3-OSM-DLL-2022/bin/
+/P3-OSM-DLL-2022/obj/
+/P3-OSM-WPF-2022/bin/
+/P3-OSM-WPF-2022/obj/
+
+# Restored local packages
+packages/
+
+# Generated logs and upgrade reports
+Log.txt
+UpgradeLog.htm
+*.log
+
+# Editor and OS metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
