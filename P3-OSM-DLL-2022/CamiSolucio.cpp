@@ -9,6 +9,11 @@ CamiSolucio::CamiSolucio()
     m_coords.push_back({ 41.4939882, 2.1456419 });
 }
 
+CamiSolucio::CamiSolucio(const std::vector<Coordinate>& coords)
+    : m_coords(coords)
+{
+}
+
 std::vector<Coordinate> CamiSolucio::getCamiCoords()
 {
     return m_coords;

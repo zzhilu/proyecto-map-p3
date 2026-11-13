@@ -10,6 +10,7 @@ private:
 
 public:
     CamiSolucio();
+    explicit CamiSolucio(const std::vector<Coordinate>& coords);
 
     std::vector<Coordinate> getCamiCoords() override;
 };
