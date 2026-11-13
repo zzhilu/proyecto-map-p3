@@ -31,6 +31,9 @@ private:
     std::map<std::string, Coordinate> m_nodes;
     std::vector<DadesPdi> m_pdisDades;
     std::vector<std::vector<std::string>> m_caminsRefs;
+    std::vector<PuntDeInteresBase*> m_pdisReals;
+    std::vector<CamiBase*> m_caminsReals;
+    bool m_xmlCarregat = false;
 
 public:
     MapaSolucio();

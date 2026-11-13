@@ -22,17 +22,44 @@ MapaSolucio::~MapaSolucio()
 
 void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
 {
-    pdis.push_back(m_botiga);
-    pdis.push_back(m_restaurant);
+
+    if (m_xmlCarregat)
+    {
+        pdis = m_pdisReals;
+    }
+    else
+    {
+        pdis.push_back(m_botiga);
+        pdis.push_back(m_restaurant);
+    }
 }
 
 void MapaSolucio::getCamins(std::vector<CamiBase*>& camins)
 {
-    camins.push_back(m_cami);
+    if (m_xmlCarregat)
+    {
+        camins = m_caminsReals;
+    }
+    else
+    {
+        camins.push_back(m_cami);
+    }
 }
 
 void MapaSolucio::parsejaXmlElements(std::vector<XmlElement>& xmlElements)
 {
+
+    for (PuntDeInteresBase* pdi : m_pdisReals)
+    {
+        delete pdi;
+    }
+    m_pdisReals.clear();
+
+    for (CamiBase* cami : m_caminsReals)
+    {
+        delete cami;
+    }
+    m_caminsReals.clear();
     m_nodes.clear();
     m_pdisDades.clear();
     m_caminsRefs.clear();
@@ -133,4 +160,60 @@ void MapaSolucio::parsejaXmlElements(std::vector<XmlElement>& xmlElements)
         if (nodesDeCami.find(candidat.id) == nodesDeCami.end())
             m_pdisDades.push_back(candidat);
     }
+
+    for (const DadesPdi& dades : m_pdisDades)
+    {
+        PuntDeInteresBase* pdi = nullptr;
+
+        if (!dades.shop.empty())
+        {
+            pdi = new PuntDeInteresBotigaSolucio(
+                dades.coord,
+                dades.name,
+                dades.shop,
+                dades.openingHours,
+                dades.wheelchair
+            );
+        }
+        else if (dades.amenity == "restaurant")
+        {
+            pdi = new PuntDeInteresRestaurantSolucio(
+                dades.coord,
+                dades.name,
+                dades.cuisine,
+                dades.wheelchair
+            );
+        }
+        else
+        {
+            pdi = new PuntDeInteresBase(
+                dades.coord,
+                dades.name
+            );
+        }
+
+        m_pdisReals.push_back(pdi);
+    }
+
+    for (const std::vector<std::string>& refs : m_caminsRefs)
+    {
+        std::vector<Coordinate> coords;
+
+        for (const std::string& id : refs)
+        {
+            auto it = m_nodes.find(id);
+
+            if (it != m_nodes.end())
+            {
+                coords.push_back(it->second);
+            }
+        }
+
+        if (!coords.empty())
+        {
+            CamiSolucio* cami = new CamiSolucio(coords);
+            m_caminsReals.push_back(cami);
+        }
+    }
+    m_xmlCarregat = true;
 }
